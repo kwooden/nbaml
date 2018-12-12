@@ -1,6 +1,6 @@
 # NBAML Game and Score Predictor
 
-This project is my introduction into Machine Learning(ML) using PHP7 tools.  It also serves as an introduction to Python.  The tool is design to allow as user to select two NBA teams and predict the score of there game and who would win using Linear Regression and/or a Neural Network.  The code is pre-beta, I'm still working out all the features.
+This project is my introduction into Machine Learning(ML) using PHP7 tools.  It also serves as an introduction to Python.  The tool is designed to enable users to create Machine Learning models, then use those models to predict the score of NBA games.  Current the system creates Linear Regression and Neural Network models.  The user can customize the game statistics and number of training games.  The code is pre-beta, I'm still working out all the features and fixing bugs.
 
 ## Getting Started
 
