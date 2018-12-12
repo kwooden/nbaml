@@ -70,7 +70,7 @@ use Phpml\ModelManager;
 use Phpml\Preprocessing\Normalizer;
 
 if(isset($_GET['Team1']) && isset($_GET['Team2'])){
-$output = shell_exec("python /home/osboxes/eric_python/nbastatsoneteam.py ".$_GET['Team1']." ".$_GET['Team2']);
+$output = shell_exec("python nbastatsoneteam.py ".$_GET['Team1']." ".$_GET['Team2']);
 } else {exit("Team 1 or 2 not Choosen");exit;}
 //print($_GET['Normalize']);
 $query_team1names = "SELECT team_name FROM teams WHERE team_id = ".$_GET['Team1'];

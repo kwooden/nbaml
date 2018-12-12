@@ -396,8 +396,8 @@ if($_GET['ModelType'] == "LinRegression"){
 	//print_r($teamsStats2);
 	$results = $neuralNetwork->predict($teamsStats2);
 	//print("<br>".$results[0]."<br>");
-	if($results == 1){print("<h4>Team 1  is The Winner: ".$Team1."</h4>");}
-	else {print("<h4> Team 2 is The Winner: ".$Team2."</h4>");}
+	if($results == 1){print("<h4>Winner: ".$Team1."</h4>");}
+	else {print("<h4>Winner: ".$Team2."</h4>");}
 
 
 } else {print("Error - no Model type choosen");}
