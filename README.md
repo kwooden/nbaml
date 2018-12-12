@@ -8,8 +8,8 @@ Download the MySQL .sql file and import into your instance of the database.  Dow
 
 ### Prerequisites
 
-MYSQL - I'm using Server version: 5.5.62-0ubuntu0.14.04.1 - (Ubuntu)
-Web Server - I'm using Apache/2.4.7 (Ubuntu)
-PHP7+ - I'm using PHP7.1
-Python - I'm using Version 3.6 for Linux
+MYSQL - Server version: 5.5.62-0ubuntu0.14.04.1 - (Ubuntu)
+Web Server - Apache/2.4.7 (Ubuntu)
+PHP - PHP7.1
+Python - Version 3.6 for Linux
 
