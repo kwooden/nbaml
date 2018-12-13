@@ -452,6 +452,8 @@ for ($x = 0; $x < $num_stats; $x++) {
 			print("data: {");
 			print("    datasets: [{");
 			print("        label: 'Scatter Plot',");
+			print("borderColor:  '#3c33ff' ,");
+			//print("backgroundColor: '#3c33ff',");
 			print($chart_data);
 			print("    }]");
 			print("},");

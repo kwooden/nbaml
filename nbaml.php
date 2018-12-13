@@ -45,8 +45,11 @@ div.main {
     width: 100%;
 }
 p {
+    font-size: 100%;
+} 
+p.sub {
     font-size: 75%;
-}   
+}  
 
 </style>
 <script type="text/javascript">
@@ -69,14 +72,18 @@ function typeCheck() {
         document.getElementById('nnmodellist').style.display = 'block';
         document.getElementById('rmodellist').style.display = 'none';
 	document.getElementById('statlist').style.display = 'none';
+	document.getElementById('dataanalysis').style.display = 'none';
     } else if (document.getElementById('lregression').checked && document.getElementById('noCheck').checked) {
         document.getElementById('rmodellist').style.display = 'block';
         document.getElementById('nnmodellist').style.display = 'none';
 	document.getElementById('statlist').style.display = 'none';
+	document.getElementById('dataanalysis').style.display = 'none';
     } else if(document.getElementById('neuralnetwork').checked && document.getElementById('yesCheck').checked) 
 	{document.getElementById('statlist').style.display = 'block';
+	document.getElementById('dataanalysis').style.display = 'block';
     } else if(document.getElementById('lregression').checked && document.getElementById('yesCheck').checked) 
 	{document.getElementById('statlist').style.display = 'none';
+	document.getElementById('dataanalysis').style.display = 'none';
     } else {}
 }
 function updateTextInput(val) {
@@ -92,6 +99,7 @@ function updateTextInput(val) {
 <div class='main'>
   <form action="nbamlresults.php" method="get">
   <div>
+  <p>
   <b>Create New Model:</b> 	
   <input type="radio" onclick="javascript:yesnoCheck();" name="CreateModel" value="Yes" id="yesCheck"> Yes
   <input type="radio" onclick="javascript:yesnoCheck();" name="CreateModel" value="No" id="noCheck" checked> No
@@ -99,11 +107,14 @@ function updateTextInput(val) {
   <b>Model Type:</b> 	
   <input type="radio" onclick="javascript:typeCheck();"  name="ModelType" value="LinRegression" id="lregression" checked> Linear Regression
   <input type="radio" onclick="javascript:typeCheck();" name="ModelType" value="NeuralNetwork" id="neuralnetwork"> Neural Network
-  <br>
-  <input type="checkbox" name="Normalize" value="normalize">Normalize Stat Data
-  <br>
-  <b>Data Analysis:</b>
-  <input type="checkbox" name="CorrelationCheck" value="normalize">Run Stat Correlation Check
+  </p>
+	  <div id="dataanalysis"> 
+	  <b>Data Analysis:</b>
+	  <br>
+	  <input type="checkbox" id="normalize" name="Normalize" value="normalize">Normalize Stat Data
+	  <br>
+	  <input type="checkbox" id="correlationcheck" name="CorrelationCheck" value="normalize">Run Stat Correlation Check
+	  </div>
   </div>
 
 <?php
@@ -143,7 +154,7 @@ $statFields = array('FG_PCT', 'FG3_PCT', 'FT_PCT', 'OREB', 'DREB', 'REB', 'AST',
 
 print("<dir id='statlist' style=\"padding-left: 0px; display:none\">");
 print("<b>Choose Stats:</b>");
-print("<p>Default stats: FG_PCT, AST_PCT</p>");
+print("<p class=\"sub\">Default stats: FG_PCT, AST_PCT</p>");
 print("<select name='NeuralNetworkStats[]' multiple size='6'>\n");
 foreach($statFields as $stat){
 	//print($file);
