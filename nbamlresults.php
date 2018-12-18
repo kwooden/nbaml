@@ -34,13 +34,22 @@ div {
     background-color: #f2f2f2;
     padding: 20px;
 }
+
+div.main {
+    border-radius: 5px;
+    margin: auto;
+    width:650px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <body>
 
 <h2>NBA Game Score Predictor - Results</h2>
 
-<div>
+<div class='main'>
 <?php
 $servername = "localhost";
 $username = "nba_stats_user";
@@ -70,8 +79,10 @@ use Phpml\ModelManager;
 use Phpml\Preprocessing\Normalizer;
 
 if(isset($_GET['Team1']) && isset($_GET['Team2'])){
+//****** Python script request to NBA Stats API *********************************
 $output = shell_exec("python nbastatsoneteam.py ".$_GET['Team1']." ".$_GET['Team2']);
 } else {exit("Team 1 or 2 not Choosen");exit;}
+
 //print($_GET['Normalize']);
 $query_team1names = "SELECT team_name FROM teams WHERE team_id = ".$_GET['Team1'];
 $query_team2names = "SELECT team_name FROM teams WHERE team_id = ".$_GET['Team2'];
@@ -105,8 +116,16 @@ if($_GET['ModelType'] == "LinRegression"){
 	preg_match_all('/ '.$searchValues[2].': ([^\s]+)[,]/', $output, $lrResults2);
 	//print_r($lrResults1);
 	//print_r($lrResults2);
+	$num_games = intval($_GET['PercentGames'])/100;
+	$query_numgames = "SELECT COUNT(game_id) AS NumberOfGames FROM team_stats_per_game";
+	$query_gameids = "SELECT DISTINCT game_id FROM team_stats_per_game LIMIT ";
 
-	$query_gameids = "SELECT DISTINCT game_id FROM team_stats_per_game LIMIT 50";
+	$numgames = $conn->query($query_numgames);
+		while($numgame = $numgames->fetch_assoc()) {
+			//print("Number of Games - ".$numgame['NumberOfGames']);
+			$ng = $numgame['NumberOfGames'];
+		}
+	$query_gameids .= intval($ng * $num_games);
 	//print($query_gameids);
 	$gameids = $conn->query($query_gameids);
 	if ($gameids->num_rows > 0) {
@@ -349,7 +368,7 @@ if($_GET['ModelType'] == "LinRegression"){
 			}
 		}
 	} else {}
-	// Search Python results ****************************************************************************
+	// Search Python script request results for stats****************************************************************************
 	if(isset($_GET['NeuralNetworkStats'])) {
 		foreach($_GET['NeuralNetworkStats'] as $stat){
 			preg_match_all('/hb'.$stat.': ([^\s]+)[,]/', $output, $lrResults1);
@@ -387,9 +406,9 @@ if($_GET['ModelType'] == "LinRegression"){
 	}
 	print("<br>");
 	//print_r($teamsStats);
-	$teamsStats2 = $teamsStats;
-	if(isset($_GET['Normalize'])) {$normalizer->transform($teamsStats2);}
+	$teamsStats2[] = $teamsStats;
 	//print_r($teamsStats2);
+	if(isset($_GET['Normalize'])) {$normalizer->transform($teamsStats2);}
 	//print("<br>Test Set<br>");	
 	//$teamsStats2 = array(0.44646980521665, 0.5845991860721, 0.38943573828279, 0.55429983801349);	
 	//$teamsStats2 = array (0.494, 0.674, 0.418, 0.659);
@@ -409,6 +428,7 @@ print("<p><a href=\"nbaml.php\">Run New Prediction</a></p>");
 // ************** Chart and Linear Convergance Check *********************
 
 if(isset($_GET['CorrelationCheck'])) {
+print("<hr>");
 print("<h3>Stat Correlation Check</h3>");
 
 print("Number of Stats: ".$num_stats."<br>");
